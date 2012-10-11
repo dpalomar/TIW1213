@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <h1>Proyecto de prueba para la asignatura TIW del grado de informática de la
+      Universidad Carlos III de Madrid</h1>
+    <br>
+    <span style="font-weight: bold;">Profesor</span>: David Palomar Delgado<br>
+    <br>
+    <h2>Objetivos</h2>
+    <br>
+    Este proyecto muestra el desarrollo de una infraestructura MVC en Java J2EE
+    y servirá como base para la incorporación de otras tecnologías.<br>
+    <br>
+    <h2>Estado actual:</h2>
+    <br>
+    Comunicación entre jsps y Servlets y presentación a través de JSTL.<br>
+    <br>
+    <h2>Entorno</h2>
+    <br>
+    Desarrollado con Eclipse Indigo, jdk 1.6 y tomcat 6.<br>
+    <br>
+    Es posible que si dispones de otro entorno diferente eclipse muestre algunos
+    errores en el proyecto. Para ello cambia los facets del proyecto (Menú
+    propiedades del proyecto-&gt;Project Facets) ahí puede elegir en la pestaña
+    Runtime el servidor que tengas instalado y en la opción java cambiar el jdk.<br>
+    <br>
+    <br>
+  </body>
+</html>
