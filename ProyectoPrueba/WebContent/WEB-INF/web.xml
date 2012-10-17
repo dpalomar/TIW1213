@@ -10,7 +10,6 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
-
     <servlet-name>FormularioServlet</servlet-name>
     <servlet-class>es.uc3m.tiw.servlets.FormularioServlet</servlet-class>
   </servlet>
@@ -18,4 +17,13 @@
     <servlet-name>FormularioServlet</servlet-name>
     <url-pattern>/formulario</url-pattern>
   </servlet-mapping>
+  <filter>
+    <display-name>SessionFilter</display-name>
+    <filter-name>SessionFilter</filter-name>
+    <filter-class>es.uc3m.tiw.servlets.filtros.SessionFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SessionFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

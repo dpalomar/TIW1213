@@ -11,10 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import es.uc3m.tiw.dominio.Usuario;
 
 /**
+ * @author david palomar
  * Servlet implementation class FormaularioServlet
  */
 public class FormularioServlet extends HttpServlet {
@@ -47,6 +49,11 @@ public class FormularioServlet extends HttpServlet {
 //		out.println("</html>");
 //		out.close();
 		
+	//invalida la sesión si se hace un logout y devuelve a la página de login.
+		if (request.getParameter("sesion").equals("logout")) {
+			request.getSession().invalidate();
+			
+		}
 		this.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
 		
 	}
@@ -74,21 +81,17 @@ public class FormularioServlet extends HttpServlet {
 		String nombre = request.getParameter("nombre");
 		String password = request.getParameter("clave");
 		
-		if (nombre.equals("")|| password.equals("")) {
+		if (nombre.equals("")|| password.equals("")||(!nombre.equals("root")&& !password.equals("admin"))) {
 			errores = new HashMap<String, String>();
-			if (nombre.equals("")) {
-				errores.put("nombre", nombre);	
-			}
-			if (password.equals("")) {
+				errores.put("nombre", nombre);
 				errores.put("clave", password);
-					
-			}
 			
 			request.setAttribute("errores", errores);
 			this.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
 			
 				
-		} else {
+		} else  {
+			
 			// recuperar una lista y devolverla
 			// simulación de la creación de un modelo de datos y devolverlo en el request.
 			List<Usuario> listaUsuarios = new ArrayList<Usuario>();
@@ -108,6 +111,10 @@ public class FormularioServlet extends HttpServlet {
 			
 			request.setAttribute("atributo", "valor de atributo");
 			request.setAttribute("listas", listaUsuarios);
+			//añadido ejemplo de sesiones
+			HttpSession sesion = request.getSession();
+			sesion.setAttribute("autenticado", true);
+			sesion.setAttribute("nombre", nombre);
 			this.getServletContext().getRequestDispatcher("/respuesta.jsp").forward(request, response);
 			
 		}

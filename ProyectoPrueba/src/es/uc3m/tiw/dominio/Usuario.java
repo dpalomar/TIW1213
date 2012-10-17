@@ -1,7 +1,12 @@
 package es.uc3m.tiw.dominio;
 
 import java.io.Serializable;
-
+/**
+ * 
+ * Modelo de dominio para la aplicación
+ * @author david palomar
+ *
+ */
 public class Usuario implements Serializable{
 
 	private String nombre;

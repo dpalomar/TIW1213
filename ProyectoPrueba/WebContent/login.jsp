@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="author"  content="David Palomar " >
 <title>Insert title here</title>
 <style type="text/css">
 .error {
@@ -14,22 +15,31 @@
 </style>
 </head>
 <body>
-	<!-- comprobar y pintar errores -->
-
+	<!-- comprobar y pintar errores (Sólo el usuario administrador puede entrar root/admin) -->
+	
 	<c:if test="${!empty errores }">
-		<c:forEach items="${errores }" var="error">
 
-			<c:if test="${error.key =='nombre'}">
-				<p class="error">El nombre no puede quedar en blanco</p>
+		<c:forEach items="${errores }" var="error" >
+		
 
-			</c:if>
-			<c:if test="${error.key =='clave'}">
-				<p class="error">La clave no puede quedar en blanco</p>
-
-			</c:if>
+		<c:if test="${empty error.value}">
+			<p class="error"> <c:out value="${error.key } no puede quedar en blanco"></c:out> </p>
+		</c:if>
+		<c:if test="${(!empty error.value) && (error.key=='nombre')}">
+			<p class="error">Sólo el usuario administrador puede entrar </p>
+			<p class="error">Psss, una pista root/admin</p>
+		</c:if>
+			
+			
+			
 		</c:forEach>
 	</c:if>
-
+	<c:if test="${sessionScope.autenticado == true}">
+		<p>Bienvenido de nuevo: <c:out value="${sessionScope.nombre }"></c:out> <!-- se recupera los atributos almacenados en sesión -->
+		</p>
+		<p>Aquí puedes acceder directamente <a href="respuesta.jsp">Acceso directo</a> <br>
+		Este enlace sólo aparece sacando los datos de la sesión si te has autenticado correctamente.</p>	
+	</c:if>
 	<h1>Formulario</h1>
 	<form action="formulario" method="post">
 		<fieldset>
