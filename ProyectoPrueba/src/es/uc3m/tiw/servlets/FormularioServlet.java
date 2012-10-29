@@ -37,7 +37,8 @@ public class FormularioServlet extends HttpServlet {
 			String configuracion = (String)config.getServletContext().getInitParameter("configuracion");
 			ResourceBundle rb = ResourceBundle.getBundle(configuracion);
 			Conector conector = Conector.getInstance();
-			Connection con = conector.crearConexionMySQL(rb);
+			//Connection con = conector.crearConexionMySQL(rb);
+			Connection con = conector.crearConexionMySQLConJNDI(rb);
 			dao = new UsuarioImpl();
 			dao.setConexion(con);
 			dao.setQuerys(rb);
