@@ -9,10 +9,13 @@ Objetivos
     
 Estado actual:
 --------------   
-    + Comunicación entre jsps y Servlets y presentación a través de JSTL.
-    + Añadido objeto de comprobación de errores
-    + Añadidas Sesiones y Filtros de ejemplo
-    + Añadido el cierre de sesión y retorno al login
+   + Comunicación entre jsps y Servlets y presentación a través de JSTL.
+   + Añadido objeto de comprobación de errores
+   + Añadidas Sesiones y Filtros de ejemplo
+   + Añadido el cierre de sesión y retorno al login
+   + Se recuperan los datos del listado desde **base de datos**
+   + Se pueden crear, modificar y borrar usuarios en la base de datos
+   + Se modifica el acceso a base de datos de local a un **DataSource** gestionado por el servidor
    
 Entorno
 -------

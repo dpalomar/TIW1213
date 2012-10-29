@@ -6,6 +6,11 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 public class Conector {
 	
 	private static Conector conector = new Conector();
@@ -46,6 +51,26 @@ public class Conector {
 		
 		return con;
 	}
+	public Connection crearConexionMySQLConJNDI(ResourceBundle propiedades){
+		DataSource datasource = null;
+		Connection con=null;
+		try {
+			Context ctx = new InitialContext();
+			datasource = (DataSource) ctx.lookup(propiedades.getString("datasource"));
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			con = datasource.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return con;
+	}
+	
 	public Connection crearConexionOracle(ResourceBundle propiedades){
 		return null;
 	}

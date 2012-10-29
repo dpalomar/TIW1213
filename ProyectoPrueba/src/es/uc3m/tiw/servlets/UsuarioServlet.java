@@ -43,7 +43,8 @@ public class UsuarioServlet extends HttpServlet {
 		String configuracion = (String)config.getServletContext().getInitParameter("configuracion");
 		ResourceBundle rb = ResourceBundle.getBundle(configuracion);
 		Conector conector = Conector.getInstance();
-		con = conector.crearConexionMySQL(rb);
+		//con = conector.crearConexionMySQL(rb);
+		Connection con = conector.crearConexionMySQLConJNDI(rb);
 		dao = new UsuarioImpl();
 		dao.setConexion(con);
 		dao.setQuerys(rb);
