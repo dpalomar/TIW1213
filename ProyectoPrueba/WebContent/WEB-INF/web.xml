@@ -9,6 +9,10 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+    <context-param>
+    <param-name>configuracion</param-name>
+    <param-value>es.uc3m.tiw.persistencia.persistencia</param-value>
+  </context-param>
   <servlet>
     <servlet-name>FormularioServlet</servlet-name>
     <servlet-class>es.uc3m.tiw.servlets.FormularioServlet</servlet-class>
@@ -26,4 +30,14 @@
     <filter-name>SessionFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UsuarioServlet</display-name>
+    <servlet-name>UsuarioServlet</servlet-name>
+    <servlet-class>es.uc3m.tiw.servlets.UsuarioServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UsuarioServlet</servlet-name>
+    <url-pattern>/usuario</url-pattern>
+  </servlet-mapping>
 </web-app>
