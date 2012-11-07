@@ -1,21 +1,22 @@
 package es.uc3m.tiw.servlets;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ResourceBundle;
 
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.UserTransaction;
 
 import es.uc3m.tiw.dominio.Usuario;
-import es.uc3m.tiw.persistencia.Conector;
 import es.uc3m.tiw.persistencia.daos.UsuarioDAO;
-import es.uc3m.tiw.persistencia.daos.UsuarioImpl;
+import es.uc3m.tiw.persistencia.daos.UsuarioJPAImpl;
 
 /**
  * Servlet implementation class UsuarioServlet
@@ -24,43 +25,23 @@ public class UsuarioServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ServletConfig config;
 	private UsuarioDAO dao;
-	private Connection con;
+	@Resource
+	private UserTransaction ut;
+	
 	private static final String ALTA="ALTA",EDITAR="EDITAR",BORRAR="BORRAR";
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UsuarioServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	
+    @PersistenceContext(unitName="prueba_UP")
+	private EntityManager em;   
+    
 
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		this.config = config;
-		String configuracion = (String)config.getServletContext().getInitParameter("configuracion");
-		ResourceBundle rb = ResourceBundle.getBundle(configuracion);
-		Conector conector = Conector.getInstance();
-		//con = conector.crearConexionMySQL(rb);
-		Connection con = conector.crearConexionMySQLConJNDI(rb);
-		dao = new UsuarioImpl();
-		dao.setConexion(con);
-		dao.setQuerys(rb);
+		dao = new UsuarioJPAImpl(em,ut);
 	}
 
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -93,7 +74,7 @@ public class UsuarioServlet extends HttpServlet {
 	 */
 	private Usuario recuperarDatosUsuario(HttpServletRequest request) {
 		Usuario usuario = new Usuario();
-		usuario.setId(Integer.parseInt(request.getParameter("id")));
+		usuario.setId(Long.parseLong(request.getParameter("id")));
 		usuario.setNombre(request.getParameter("nombre"));
 		usuario.setPassword(request.getParameter("password"));
 		return usuario;
@@ -129,23 +110,34 @@ public class UsuarioServlet extends HttpServlet {
 	private void modificarUsuario(Usuario usuario){
 		try {
 			dao.actualizarUsuario(usuario);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (Throwable e) {
+			try {
+				ut.rollback();
+			} catch (Exception e1) {
+				
+				e1.printStackTrace();
+			} 
 			e.printStackTrace();
 		}
-		
 	}
 	/**
 	 * Borra los datos de un usuario con el UsuarioDao
 	 * @param usuario
 	 */
 	private void borrarUsuario(Usuario usuario){
-		try {
-			dao.borrarUsuario(usuario);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+			try {
+				dao.borrarUsuario(usuario);
+			} catch (Throwable e) {
+				try {
+					ut.rollback();
+				} catch (Exception e1) {
+					
+					e1.printStackTrace();
+				} 
+				e.printStackTrace();
+			}
+
 		
 	}
 	/**
@@ -155,8 +147,13 @@ public class UsuarioServlet extends HttpServlet {
 	private void altaUsuario(Usuario usuario){
 		try {
 			dao.crearUsuario(usuario);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (Throwable e) {
+			try {
+				ut.rollback();
+			} catch (Exception e1) {
+				
+				e1.printStackTrace();
+			} 
 			e.printStackTrace();
 		}
 	}

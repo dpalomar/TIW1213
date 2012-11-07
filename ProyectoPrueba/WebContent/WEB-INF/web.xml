@@ -9,10 +9,7 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-    <context-param>
-    <param-name>configuracion</param-name>
-    <param-value>es.uc3m.tiw.persistencia.persistencia</param-value>
-  </context-param>
+
   <servlet>
     <servlet-name>FormularioServlet</servlet-name>
     <servlet-class>es.uc3m.tiw.servlets.FormularioServlet</servlet-class>

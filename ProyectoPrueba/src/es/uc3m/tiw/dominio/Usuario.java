@@ -1,6 +1,15 @@
 package es.uc3m.tiw.dominio;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.AUTO;
+import javax.persistence.Column;
+import javax.persistence.Basic;
+import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.FetchType.LAZY;
+import javax.persistence.Table;
 
 /**
  * 
@@ -9,11 +18,18 @@ import java.io.Serializable;
  * @author david palomar
  * 
  */
+@Entity
+@Table(name = "usuario")
 public class Usuario implements Serializable {
 
+	@Column(length = 45, nullable = false, unique = true)
+	@Basic
 	private String nombre;
+	@Column(length = 8, nullable = false)
 	private String password;
-	private int id;
+	@Id
+	@GeneratedValue(strategy = AUTO)
+	private Long id;
 
 	public String getNombre() {
 		return nombre;
@@ -31,12 +47,12 @@ public class Usuario implements Serializable {
 		this.password = password;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(Long i) {
+		this.id = i;
 	}
 
 }
